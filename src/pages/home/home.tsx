@@ -35,6 +35,10 @@ export const Home = () => {
     setSearch(event.currentTarget.value);
   };
 
+  const onClear = () => {
+    setSearch("");
+  };
+
   return (
     <HomeLayout>
       <Title>Список пользователей</Title>
@@ -43,6 +47,7 @@ export const Home = () => {
         placeholder="Поиск по имени или по e-mail"
         iconUrl="/images/search.svg"
         onChange={onChange}
+        onClear={onClear}
       />
       {isUsersLoaded ? (
         <Table

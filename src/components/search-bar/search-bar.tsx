@@ -8,6 +8,7 @@ interface Props {
   placeholder: string;
   iconUrl: string;
   onChange: (event: FormEvent<HTMLInputElement>) => void;
+  onClear: () => void;
 }
 
 export const SearchBar: FC<Props> = ({
@@ -15,6 +16,7 @@ export const SearchBar: FC<Props> = ({
   placeholder,
   iconUrl,
   onChange,
+  onClear,
 }) => (
   <SearchBarStyles>
     <Input
@@ -23,7 +25,7 @@ export const SearchBar: FC<Props> = ({
       $iconUrl={iconUrl}
       onChange={onChange}
     />
-    <StyledButton $type="text">
+    <StyledButton onClick={onClear} $type="text">
       <Icons.Clean /> Очистить фильтр
     </StyledButton>
   </SearchBarStyles>
