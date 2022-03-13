@@ -1,21 +1,19 @@
-import { FC } from "react";
-import { useTable } from "react-table";
+import { Column, useTable } from "react-table";
 import { Cell, HeaderCell } from "./components";
 import { RemovingCell } from "./components/removing-cell";
 import { StyledTable } from "./table.styles";
 
-export interface Column {
-  Header: string;
-  accessor: string;
-}
-
-interface Props {
-  columns: Column[];
-  data: Record<string, string>[];
+interface Props<T extends object> {
+  columns: Column<T>[];
+  data: T[];
   hasRemovingRow?: boolean;
 }
 
-export const Table: FC<Props> = ({ columns, data, hasRemovingRow }) => {
+export const Table = <T extends object>({
+  columns,
+  data,
+  hasRemovingRow,
+}: Props<T>) => {
   const { getTableProps, getTableBodyProps, prepareRow, headerGroups, rows } =
     useTable({ columns, data });
 

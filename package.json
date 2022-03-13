@@ -48,6 +48,7 @@
   },
   "devDependencies": {
     "@types/react-table": "^7.7.9",
-    "@types/styled-components": "^5.1.24"
+    "@types/styled-components": "^5.1.24",
+    "redux-devtools-extension": "^2.13.9"
   }
 }

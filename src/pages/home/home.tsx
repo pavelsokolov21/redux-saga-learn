@@ -1,7 +1,10 @@
-import { Table, Column } from "components/table";
+import { Table } from "components/table";
+import { User } from "interfaces/user";
+import { Column } from "react-table";
+import { useHome } from "./home.hooks";
 import { HomeLayout, StyledSearchBar, Title } from "./home.styles";
 
-const columns: Column[] = [
+const columns: Column<User>[] = [
   {
     Header: "Имя пользователя",
     accessor: "username",
@@ -12,7 +15,7 @@ const columns: Column[] = [
   },
   {
     Header: "Дата регистрации",
-    accessor: "registrationDate",
+    accessor: "registration_date",
   },
   {
     Header: "Рейтинг",
@@ -20,25 +23,18 @@ const columns: Column[] = [
   },
 ];
 
-const data = [
-  {
-    username: "username",
-    email: "p.v.2000@gmail.com",
-    registrationDate: "29.10.00",
-    rating: "12",
-  },
-  {
-    username: "username",
-    email: "p.v.2000@gmail.com",
-    registrationDate: "29.10.00",
-    rating: "12",
-  },
-];
+export const Home = () => {
+  const { users, isUsersLoaded } = useHome();
 
-export const Home = () => (
-  <HomeLayout>
-    <Title>Список пользователей</Title>
-    <StyledSearchBar />
-    <Table columns={columns} data={data} hasRemovingRow />
-  </HomeLayout>
-);
+  return (
+    <HomeLayout>
+      <Title>Список пользователей</Title>
+      <StyledSearchBar />
+      {isUsersLoaded ? (
+        <Table columns={columns} data={users} hasRemovingRow />
+      ) : (
+        <h1>Loading...</h1>
+      )}
+    </HomeLayout>
+  );
+};
