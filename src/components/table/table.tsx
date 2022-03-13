@@ -3,9 +3,11 @@ import {
   Column,
   IdType,
   Row,
+  SortingRule,
   TableInstance,
   TableOptions,
   useGlobalFilter,
+  useSortBy,
   useTable,
 } from "react-table";
 import { matchSorter } from "match-sorter";
@@ -19,6 +21,7 @@ interface Props<T extends object> {
   hasRemovingRow?: boolean;
   filters?: (keyof T)[];
   filter?: string;
+  sortBy?: SortingRule<T>;
 }
 
 export const Table = <T extends object>({
@@ -27,6 +30,7 @@ export const Table = <T extends object>({
   hasRemovingRow,
   filters,
   filter,
+  sortBy,
 }: Props<T>) => {
   const globalFilter = useCallback(
     (rows: Row<T>[], _: IdType<T>[], query: string) =>
@@ -40,15 +44,22 @@ export const Table = <T extends object>({
     getTableBodyProps,
     prepareRow,
     setGlobalFilter,
+    setSortBy,
     headerGroups,
     rows,
   } = useTable<T>(
-    { columns, data, globalFilter } as TableOptions<T> & {
+    {
+      columns,
+      data,
+      globalFilter,
+    } as TableOptions<T> & {
       globalFilter: typeof globalFilter;
     },
-    useGlobalFilter
+    useGlobalFilter,
+    useSortBy
   ) as TableInstance<T> & {
     setGlobalFilter: (filterValue: string) => void;
+    setSortBy: (sortBy: Array<SortingRule<T>>) => void;
   };
 
   useEffect(() => {
@@ -56,6 +67,12 @@ export const Table = <T extends object>({
       setGlobalFilter(filter);
     }
   }, [filter, filters, setGlobalFilter]);
+
+  useEffect(() => {
+    if (sortBy !== undefined) {
+      setSortBy([sortBy]);
+    }
+  }, [sortBy, setSortBy]);
 
   return (
     <StyledTable {...getTableProps()}>

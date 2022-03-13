@@ -5,3 +5,5 @@ export interface User {
   registration_date?: string;
   rating?: number;
 }
+
+export type UserKeys = keyof User;
