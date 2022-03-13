@@ -75,7 +75,7 @@ export const HomeTable: FC = () => {
           <Table
             columns={columns}
             data={users}
-            hasRemovingRow
+            deleteField="email"
             filters={["email", "username"]}
             filter={search}
             sortBy={sortBy}

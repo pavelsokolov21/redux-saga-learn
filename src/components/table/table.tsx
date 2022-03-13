@@ -18,19 +18,19 @@ import { StyledTable } from "./table.styles";
 interface Props<T extends object> {
   columns: Column<T>[];
   data: T[];
-  hasRemovingRow?: boolean;
   filters?: (keyof T)[];
   filter?: string;
   sortBy?: SortingRule<T>;
+  deleteField?: keyof T;
 }
 
 export const Table = <T extends object>({
   columns,
   data,
-  hasRemovingRow,
   filters,
   filter,
   sortBy,
+  deleteField,
 }: Props<T>) => {
   const globalFilter = useCallback(
     (rows: Row<T>[], _: IdType<T>[], query: string) =>
@@ -84,7 +84,7 @@ export const Table = <T extends object>({
                 {column.render("Header")}
               </HeaderCell>
             ))}
-            {hasRemovingRow && <HeaderCell colSpan={1} role="columnheader" />}
+            {deleteField && <HeaderCell colSpan={1} role="columnheader" />}
           </tr>
         ))}
       </thead>
@@ -97,7 +97,9 @@ export const Table = <T extends object>({
               {row.cells.map((cell) => (
                 <Cell {...cell.getCellProps()}>{cell.render("Cell")}</Cell>
               ))}
-              {hasRemovingRow && <RemovingCell />}
+              {deleteField && (
+                <RemovingCell deleteField={row.original[deleteField]} />
+              )}
             </tr>
           );
         })}
